@@ -37,6 +37,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    final globalKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -52,19 +54,36 @@ class _MyHomePageState extends State<MyHomePage> {
               'COUNTER VALUE',
               style: Theme.of(context).textTheme.headline4,
             ),
-            BlocBuilder<CounterCubit, CounterState>(
+            BlocConsumer<CounterCubit, CounterState>(
+              listener: (context, state) {
+                if (state.wasIncremented == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Incremented!"),
+                      duration: Duration(milliseconds: 500),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Decremented!"),
+                      duration: Duration(milliseconds: 500),
+                    ),
+                  );
+                }
+              },
               builder: (context, state) {
                 if (state.counterValue < 0) {
                   return Text(
                     'BRR, NEGATIVE ${state.counterValue}',
                     style: Theme.of(context).textTheme.headline4,
                   );
-                } else if (state.counterValue % 2 == 0) {
+                } else if (state.counterValue > 0 && state.counterValue % 2 == 0) {
                   return Text(
                     "Yaa It's Even ${state.counterValue}",
                     style: Theme.of(context).textTheme.headline4,
                   );
-                } else if (state.counterValue % 2 == 1) {
+                } else if (state.counterValue > 0 && state.counterValue % 2 == 1) {
                   return Text(
                     "BRR, It's Odd ${state.counterValue}",
                     style: Theme.of(context).textTheme.headline4,
