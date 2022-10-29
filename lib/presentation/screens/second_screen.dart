@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SecondScreen extends StatefulWidget {
-  const SecondScreen({super.key, required this.title, required this.color});
+  const SecondScreen({super.key, required this.title, this.color});
 
   final String title;
-  final Color color;
+  final Color? color;
 
   @override
   State<SecondScreen> createState() => _SecondScreenState();
@@ -94,9 +94,7 @@ class _SecondScreenState extends State<SecondScreen> {
             const SizedBox(height: 24),
             MaterialButton(
               color: widget.color,
-              onPressed: () {
-                Navigator.of(context).pushNamed('third');
-              },
+              onPressed: () => Navigator.of(context).pushNamed('/third'),
               child: const Text('Go to Third Screen'),
             )
           ],
