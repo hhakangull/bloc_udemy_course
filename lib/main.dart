@@ -7,24 +7,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'presentation/router/app_router.dart';
 
 void main() {
-  Connectivity connectivity = Connectivity();
-  InternetCubit internetCubit = InternetCubit(connectivity: connectivity);
   runApp(MyApp(
-    appRouter: AppRouter(internetCubit: internetCubit),
-    internetCubit: InternetCubit(connectivity: connectivity),
-    connectivity: connectivity,
+    appRouter: AppRouter(),
+    connectivity: Connectivity(),
   ));
 }
 
 class MyApp extends StatelessWidget {
   final AppRouter appRouter;
   final Connectivity connectivity;
-  final InternetCubit internetCubit;
+
   const MyApp({
     super.key,
     required this.appRouter,
     required this.connectivity,
-    required this.internetCubit,
   });
 
   @override
