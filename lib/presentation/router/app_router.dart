@@ -1,4 +1,5 @@
 import 'package:bloc_udemy_course/logic/cubit/counter_cubit.dart';
+import 'package:bloc_udemy_course/logic/cubit/internet_cubit.dart';
 import 'package:bloc_udemy_course/presentation/screens/home_screen.dart';
 import 'package:bloc_udemy_course/presentation/screens/second_screen.dart';
 import 'package:bloc_udemy_course/presentation/screens/third_screen.dart';
@@ -6,7 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouter {
-  final CounterCubit _counterCubit = CounterCubit();
+  late InternetCubit internetCubit;
+  late CounterCubit _counterCubit;
+
+  AppRouter({required this.internetCubit});
+
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':

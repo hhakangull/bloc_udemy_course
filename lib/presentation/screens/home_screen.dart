@@ -1,4 +1,6 @@
+import 'package:bloc_udemy_course/constants/enums.dart';
 import 'package:bloc_udemy_course/logic/cubit/counter_cubit.dart';
+import 'package:bloc_udemy_course/logic/cubit/internet_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,54 +26,24 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            BlocBuilder<InternetCubit, InternetState>(
+              builder: (context, state) {
+                if (state is InternetConnected && state.connectionType == ConnectionType.wifi) {
+                  return const Text('Wifi');
+                } else if (state is InternetConnected && state.connectionType == ConnectionType.mobile) {
+                  return const Text('Mobile');
+                } else if (state is InternetDisConnected) {
+                  return const Text('Disconnected');
+                }
+                return const CircularProgressIndicator();
+              },
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),
             Text(
               'COUNTER VALUE',
               style: Theme.of(context).textTheme.headline4,
-            ),
-            BlocConsumer<CounterCubit, CounterState>(
-              listener: (context, state) {
-                if (state.wasIncremented == true) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Incremented!"),
-                      duration: Duration(milliseconds: 500),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Decremented!"),
-                      duration: Duration(milliseconds: 500),
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state.counterValue < 0) {
-                  return Text(
-                    'BRR, NEGATIVE ${state.counterValue}',
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                } else if (state.counterValue > 0 && state.counterValue % 2 == 0) {
-                  return Text(
-                    "Yaa It's Even ${state.counterValue}",
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                } else if (state.counterValue > 0 && state.counterValue % 2 == 1) {
-                  return Text(
-                    "BRR, It's Odd ${state.counterValue}",
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                } else {
-                  return Text(
-                    state.counterValue.toString(),
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                }
-              },
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
